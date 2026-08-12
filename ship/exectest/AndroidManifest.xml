@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- RELEASE-shaped manifest: NO android:debuggable, so PackageManager applies
+     the real untrusted_app policy a shipping build gets. extractNativeLibs=true
+     is mandatory (memo §5.3) so lib*.so land in nativeLibraryDir on disk. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.oscilla.tcexec">
+    <application
+        android:extractNativeLibs="true"
+        android:hasCode="true"
+        android:label="TCExec">
+        <activity android:name="com.oscilla.tcexec.ExecTestTC"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
