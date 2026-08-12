@@ -9,14 +9,14 @@ or later**, and GPLv3 §6 requires that anyone who receives the binaries can als
 the source they were built from.
 
 This repository is that offer. It contains the complete recipe used to produce the
-binaries in the shipped app: the pinned upstream versions and checksums, every patch
+binaries in the shipped app: the pinned upstream versions, every patch
 applied, and the scripts that fetch, configure, build, trim and package them.
 
 ## What is here
 
 | Path | What it is |
 |---|---|
-| `build.conf` | The pinned upstream component versions, download URLs and checksums |
+| `build.conf` | The pinned upstream component versions and download URLs |
 | `00-prereqs.sh`, `00-check-env.sh` | Build-host prerequisites and environment checks |
 | `01-fetch.sh` | Downloads the upstream tarballs and applies the patches |
 | `02-build-native.sh` | Builds the host (x86-64 Linux) toolchain used as the reference |
@@ -28,8 +28,13 @@ applied, and the scripts that fetch, configure, build, trim and package them.
 | `ship/` | Diagnostic and recovery helpers used during bring-up |
 
 The upstream sources themselves are **not** mirrored here. `01-fetch.sh` downloads them
-from their original locations, which are pinned by version and checksum in `build.conf`,
-so a rebuild uses exactly the same code the shipped binaries were built from.
+from their original locations, pinned by exact version in `build.conf`, so a rebuild uses
+the same released tarballs the shipped binaries were built from.
+
+**Known gap, stated plainly:** `build.conf` pins versions and URLs but does not currently
+record a checksum for each downloaded tarball. Integrity is instead demonstrated at the
+other end — `04-refbuild.sh` verifies that a rebuild reproduces the reference image byte
+for byte (see below). Recording per-tarball checksums is a planned hardening step.
 
 ## Rebuilding
 
